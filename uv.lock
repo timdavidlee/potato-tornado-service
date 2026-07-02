@@ -332,7 +332,7 @@ wheels = [
 [[package]]
 name = "potato-tornado"
 version = "0.1.0"
-source = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git?branch=postgres-seed#aa718ca7da4c02587262fe69474be0a276465717" }
+source = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git?tag=v0.1.0#2ee2fb04ad976338804da8db3e23314076d424ae" }
 dependencies = [
     { name = "duckdb" },
     { name = "faker" },
@@ -370,7 +370,7 @@ dev = [
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.27" },
-    { name = "potato-tornado", extras = ["postgres"], git = "ssh://git@github.com/timdavidlee/potato-tornado.git?branch=postgres-seed" },
+    { name = "potato-tornado", extras = ["postgres"], git = "ssh://git@github.com/timdavidlee/potato-tornado.git?tag=v0.1.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.32" },
 ]

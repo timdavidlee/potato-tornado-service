@@ -13,13 +13,12 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["httpx>=0.27", "pytest>=8"]
 
-# The library is a private repo; install it over SSH (same as `git clone`).
-# Pinned to the postgres-seed branch until that PR merges — then switch to a tag:
-#   potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", tag = "v0.1.1" }
+# The library is a private repo; install it over SSH (same as `git clone`), pinned to a release
+# tag for reproducibility. Bump the tag here when the library releases a new version.
 # For fully-offline dev against a local checkout, override with a path source instead:
 #   potato-tornado = { path = "../potato-tornado", editable = true }
 [tool.uv.sources]
-potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", branch = "postgres-seed" }
+potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", tag = "v0.1.0" }
 
 [build-system]
 requires = ["hatchling"]

@@ -14,8 +14,8 @@ docker compose
 └── api    uvicorn (FastAPI)               reads Postgres, serves JSON on :8000
 ```
 
-The library is a private dependency installed over SSH (pinned to the `postgres-seed` branch
-until that PR lands — see `[tool.uv.sources]` in [`pyproject.toml`](pyproject.toml)).
+The library is a private dependency installed over SSH, pinned to a release tag (`v0.1.0`) — see
+`[tool.uv.sources]` in [`pyproject.toml`](pyproject.toml).
 
 ## Run it
 
@@ -71,11 +71,15 @@ source in `pyproject.toml`:
 potato-tornado = { path = "../potato-tornado", editable = true }
 ```
 
-## Once the library releases
+## Bumping the library
 
-When the `potato-tornado` `seed` work merges to `main`, tag a release there and switch this repo's
-dependency from the branch to that tag:
+When `potato-tornado` cuts a new release, bump the pinned tag in
+[`pyproject.toml`](pyproject.toml) and re-lock:
 
 ```toml
-potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", tag = "v0.1.1" }
+potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", tag = "v0.2.0" }
+```
+
+```bash
+uv lock && uv sync --extra dev
 ```
