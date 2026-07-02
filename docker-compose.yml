@@ -1,0 +1,55 @@
+name: potato-tornado-service
+
+# Build images with SSH forwarding for the private git dependency:
+#   docker compose build --ssh default
+#   docker compose up
+# (an ssh-agent with your GitHub key must be running).
+
+x-app-build: &app-build
+  context: .
+  ssh:
+    - default
+
+x-db-url: &db-url "postgresql://postgres:postgres@db:5432/teaching"
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: teaching
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d teaching"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  # One-shot: generate every collection into its own schema, then exit.
+  seed:
+    build: *app-build
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: *db-url
+    command:
+      ["uv", "run", "--no-dev", "potato-tornado", "seed", *db-url, "--scale", "1"]
+    restart: "no"
+
+  api:
+    build: *app-build
+    depends_on:
+      seed:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: *db-url
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

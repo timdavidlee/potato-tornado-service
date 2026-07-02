@@ -1,0 +1,29 @@
+[project]
+name = "potato-tornado-service"
+version = "0.1.0"
+description = "Dockerised API + Postgres serving the potato-tornado teaching collections."
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "potato-tornado[postgres]",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+]
+
+[project.optional-dependencies]
+dev = ["httpx>=0.27", "pytest>=8"]
+
+# The library is a private repo; install it over SSH (same as `git clone`).
+# Pinned to the postgres-seed branch until that PR merges — then switch to a tag:
+#   potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", tag = "v0.1.1" }
+# For fully-offline dev against a local checkout, override with a path source instead:
+#   potato-tornado = { path = "../potato-tornado", editable = true }
+[tool.uv.sources]
+potato-tornado = { git = "ssh://git@github.com/timdavidlee/potato-tornado.git", branch = "postgres-seed" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/potato_tornado_service"]
