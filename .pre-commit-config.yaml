@@ -1,0 +1,11 @@
+# Conventional-commit validation via commitizen. Bootstrap once per clone:
+#   uv run pre-commit install
+# (installs the commit-msg hook; runs `cz check` on every commit message).
+default_install_hook_types: [commit-msg]
+
+repos:
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.16.4
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]

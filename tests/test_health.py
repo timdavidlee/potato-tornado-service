@@ -26,6 +26,13 @@ def test_health_ok_when_db_reachable(monkeypatch: pytest.MonkeyPatch) -> None:
     assert response.json() == {"status": "ok"}
 
 
+def test_index_serves_ui() -> None:
+    response = TestClient(main.app).get("/")
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/html")
+    assert "dataset browser" in response.text
+
+
 def test_health_503_when_db_down(monkeypatch: pytest.MonkeyPatch) -> None:
     def _boom() -> object:
         class _E:

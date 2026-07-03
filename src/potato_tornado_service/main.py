@@ -11,16 +11,24 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse
 from sqlalchemy import Connection, text
 from sqlalchemy.exc import SQLAlchemyError
 
 from potato_tornado_service.db import get_engine
+from potato_tornado_service.ui import INDEX_HTML
 
 app = FastAPI(
     title="potato-tornado-service",
     description="Query the synthetic teaching collections seeded into Postgres.",
     version="0.1.0",
 )
+
+
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+def index() -> str:
+    """Serve the dataset browser UI (a static page that drives the JSON API below)."""
+    return INDEX_HTML
 
 # Schemas that ship with Postgres / hold no collection data — hidden from the API.
 _SYSTEM_SCHEMAS = frozenset({"pg_catalog", "information_schema", "pg_toast", "public"})
