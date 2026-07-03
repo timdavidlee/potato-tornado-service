@@ -37,12 +37,17 @@ curl localhost:8000/collections/hotel/tables                 # ["demand_forecast
 curl 'localhost:8000/collections/hotel/tables/reservations?limit=5'
 ```
 
+Dataset browser UI: <http://localhost:8000/> — a sidebar of collections and tables with a
+paginated row viewer. It's a static page served by the same FastAPI app (no extra service), so it
+runs in the existing `api` container and just drives the JSON endpoints below.
+
 Interactive docs: <http://localhost:8000/docs>.
 
 ## Endpoints
 
 | Method & path | Returns |
 |---|---|
+| `GET /` | the dataset browser UI (HTML) |
 | `GET /health` | `{"status":"ok"}`, or `503` if Postgres is unreachable |
 | `GET /collections` | the seeded schema names (one per collection) |
 | `GET /collections/{schema}/tables` | table names in that collection |

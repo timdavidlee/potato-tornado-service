@@ -11,7 +11,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["httpx>=0.27", "pytest>=8"]
+dev = [
+    "commitizen>=4.16.4",
+    "httpx>=0.27",
+    "pre-commit>=4.6.0",
+    "pytest>=8",
+]
 
 # The library is a private repo; install it over SSH (same as `git clone`), pinned to a release
 # tag for reproducibility. Bump the tag here when the library releases a new version.
@@ -26,3 +31,11 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/potato_tornado_service"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = ["pyproject.toml:^version"]
+tag_format = "v$version"
+update_changelog_on_bump = true
+major_version_zero = true
